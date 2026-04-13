@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta property="og:title" content="KohakuRei Studio">
+  <meta property="og:description" content="Indie game development. Discover Miyu: Echoes of a Shadow.">
+  <meta property="og:image" content="URL_DE_TU_IMAGEN">
+  <meta property="og:type" content="website">
+  <title>KohakuRei Studio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="icon" type="image/png" href="ico/IconoKohakuReiStudio.png">
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --panel: #11111a;
+      --text: #e4e4ec;
+      --muted: #8a8a9a;
+      --accent: #ff7a2f;
+      --line: #1c1c28;
+      /* ===== PALETA MIYU ===== */
+      --miyu-violet-glow: rgba(120, 60, 200, 0.55);
+      --miyu-violet-soft: rgba(120, 60, 200, 0.08);
+      --miyu-violet-border: rgba(140, 80, 220, 0.35);
+      --miyu-green-glow: rgba(160, 200, 30, 0.55);
+      --miyu-green-soft: rgba(160, 200, 30, 0.08);
+      --miyu-green-border: rgba(160, 200, 30, 0.7);
+      --miyu-text: #e4eccc;
+      --miyu-text-muted: #b8c99a;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* ===== HEADER ===== */
+    header {
+      border-bottom: 1px solid var(--line);
+      background: rgba(10, 10, 15, 0.8);
+      backdrop-filter: blur(10px);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 20px;
+    }
+
+    .logo {
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    .lang-switch button {
+      background: rgba(255, 122, 47, 0.06);
+      border: 1px solid rgba(255, 122, 47, 0.35);
+      color: rgba(255, 200, 160, 0.7);
+      cursor: pointer;
+      padding: 5px 10px;
+      font-family: 'Inter', sans-serif;
+      text-transform: uppercase;
+      transition: all 0.25s ease;
+      box-shadow: 0 0 6px rgba(255, 122, 47, 0.15), inset 0 0 6px rgba(255, 122, 47, 0.05);
+    }
+
+    .lang-switch button:hover {
+      background: rgba(255, 122, 47, 0.12);
+      border-color: rgba(255, 122, 47, 0.8);
+      color: #ffe0c8;
+      box-shadow: 0 0 14px rgba(255, 122, 47, 0.55), 0 0 30px rgba(255, 122, 47, 0.2), inset 0 0 10px rgba(255, 122, 47, 0.1);
+    }
+
+    .banner {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      object-position: center 30%;
+      border-bottom: 1px solid var(--line);
+      display: block;
+    }
+
+    /* ===== NAV ===== */
+    nav {
+      display: flex;
+      gap: 10px;
+    }
+
+    nav button {
+      background: rgba(255, 122, 47, 0.06);
+      border: 1px solid rgba(255, 122, 47, 0.35);
+      color: rgba(255, 200, 160, 0.7);
+      cursor: pointer;
+      font-size: 13px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      padding: 6px 20px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: all 0.25s ease;
+      box-shadow: 0 0 6px rgba(255, 122, 47, 0.15), inset 0 0 6px rgba(255, 122, 47, 0.05);
+    }
+
+    nav button:hover {
+      background: rgba(255, 122, 47, 0.12);
+      border-color: rgba(255, 122, 47, 0.8);
+      color: #ffe0c8;
+      box-shadow: 0 0 14px rgba(255, 122, 47, 0.55), 0 0 30px rgba(255, 122, 47, 0.2), inset 0 0 10px rgba(255, 122, 47, 0.1);
+    }
+
+    nav button.active {
+      background: rgba(255, 122, 47, 0.15);
+      border-color: rgba(255, 150, 70, 0.9);
+      color: #fff0e6;
+      box-shadow: 0 0 18px rgba(255, 122, 47, 0.65), 0 0 40px rgba(255, 122, 47, 0.25), inset 0 0 12px rgba(255, 122, 47, 0.15);
+    }
+
+    /* ===== LAYOUT ===== */
+    .container {
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: 40px;
+      padding: 40px;
+    }
+    .container-full {
+      display: grid;
+      grid-template-columns: 1fr;
+      padding: 40px;
+    }
+
+    .main {
+      text-align: center;
+      max-width: 2000px;
+    }
+
+    .sidebar {
+      border-left: 1px solid var(--line);
+      padding-left: 20px;
+    }
+
+    h1 {
+      font-size: 26px;
+      margin-bottom: 10px;
+    }
+
+    p {
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* ===== SOCIALS ===== */
+    .social-list {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .social {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--text);
+      font-size: 14px;
+    }
+
+    .social i {
+      width: 20px;
+      text-align: center;
+      color: var(--accent);
+    }
+
+    .social:hover {
+      color: var(--accent);
+    }
+
+    /* ===== GAME CARD — violeta por defecto, verde en hover ===== */
+    .menu-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 50px auto;
+      max-width: 800px;
+      gap: 24px;
+      border: 1px solid var(--miyu-violet-border);
+      padding: 20px;
+      background: var(--miyu-violet-soft);
+      cursor: pointer;
+      transition: all 0.4s ease;
+      box-shadow: 0 0 8px var(--miyu-violet-glow), 0 0 24px rgba(120, 60, 200, 0.2), inset 0 0 8px rgba(120, 60, 200, 0.08);
+    }
+
+    .menu-card:hover {
+      background: var(--miyu-green-soft);
+      border-color: var(--miyu-green-border);
+      box-shadow: 0 0 14px var(--miyu-green-glow), 0 0 32px rgba(160, 200, 30, 0.2), inset 0 0 10px rgba(160, 200, 30, 0.06);
+    }
+
+    /* ===== IMAGEN MIYU ===== */
+    .miyu-wrapper {
+      position: relative;
+      flex-shrink: 0;
+      width: 100px;
+      height: 160px;
+      margin-left: auto;
+      overflow: visible;
+    }
+
+    .miyu-wrapper img {
+      position: absolute;
+      top: 50px;
+      right: 0;
+      width: 200px;
+      height: auto;
+      object-fit: contain;
+      transition: opacity 0.6s ease;
+    }
+
+    .miyu-normal {
+      opacity: 0;
+    }
+
+    .miyu-poseida {
+      opacity: 1;
+    }
+
+    .menu-card:hover .miyu-normal {
+      opacity: 1;
+    }
+
+    .menu-card:hover .miyu-poseida {
+      opacity: 0;
+    }
+
+    .menu-card-text {
+      padding-left: 15%;
+      flex: 1;
+    }
+
+    .menu-card-text-gallery {
+      flex: 1;
+    }
+
+    /* texto violeta por defecto, verde en hover */
+    .menu-card-text h1 {
+      margin: 0 0 6px;
+      white-space: nowrap;
+      color: #ddd0f0;
+      transition: color 0.4s ease;
+    }
+
+    .menu-card-text p {
+      margin: 0px;
+      font-size: 13px;
+      color: #b8a8d8;
+      transition: color 0.4s ease;
+    }
+
+    .menu-card:hover .menu-card-text h1 {
+      color: var(--miyu-text);
+    }
+
+    .menu-card:hover .menu-card-text p {
+      color: var(--miyu-text-muted);
+    }
+
+    /* ===== GAME INFO (página expandida) ===== */
+    #game-info {
+      display: none;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    #game-info.visible {
+      display: block;
+    }
+
+    #game-info.fade-in {
+      opacity: 1;
+    }
+
+    #game-info h1 {
+      margin-bottom: 10px;
+    }
+
+    /* ===== BOTÓN VOLVER — violeta por defecto, verde en hover ===== */
+    .btn-back {
+      background: var(--miyu-violet-soft);
+      border: 1px solid var(--miyu-violet-border);
+      color: #ddd0f0;
+      cursor: pointer;
+      font-size: 12px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 800;
+      padding: 10px 18px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      transition: all 0.25s ease;
+      box-shadow: 0 0 6px rgba(120, 60, 200, 0.2), inset 0 0 6px rgba(120, 60, 200, 0.05);
+    }
+
+    .btn-back:hover {
+      background: var(--miyu-green-soft);
+      border-color: var(--miyu-green-border);
+      color: var(--miyu-text);
+      box-shadow: 0 0 14px var(--miyu-green-glow), 0 0 28px rgba(160, 200, 30, 0.15), inset 0 0 8px rgba(160, 200, 30, 0.05);
+    }
+
+    .gallery-wrapper {
+      position: relative;
+      width: 100px;
+      height: 160px;
+      margin-left: auto;
+      overflow: visible;
+    }
+
+    .gallery-wrapper img {
+      position: absolute;
+      top: 50px;
+      right: 0;
+      width: 200px;
+      height: auto;
+      object-fit: contain;
+    }
+
+    /* estado normal visible */
+    .paleta-abajo {
+      opacity: 1;
+    }
+
+    /* estado hover oculto */
+    .paleta-arriba {
+      opacity: 0;
+    }
+
+    /* hover swap instantáneo */
+    .menu-card:hover .paleta-abajo {
+      opacity: 0;
+    }
+
+    .menu-card:hover .paleta-arriba {
+      opacity: 1;
+    }
+
+    /* ===== ABOUT / FAQ ===== */
+    .faq-wrapper {
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: left;
+    }
+
+    .faq-search {
+      width: 100%;
+      background: var(--miyu-violet-soft);
+      border: 1px solid var(--miyu-violet-border);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      padding: 12px 16px;
+      margin-bottom: 16px;
+      outline: none;
+      transition: all 0.4s ease;
+      box-shadow: 0 0 8px var(--miyu-violet-glow), 0 0 24px rgba(120, 60, 200, 0.2), inset 0 0 8px rgba(120, 60, 200, 0.08);
+    }
+
+    .faq-search::placeholder {
+      color: var(--muted);
+    }
+
+    .faq-search:focus {
+      background: var(--miyu-green-soft);
+      border-color: var(--miyu-green-border);
+      box-shadow: 0 0 14px var(--miyu-green-glow), 0 0 32px rgba(160, 200, 30, 0.2), inset 0 0 10px rgba(160, 200, 30, 0.06);
+    }
+
+    .faq-item {
+      border: 1px solid var(--miyu-violet-border);
+      margin-bottom: 8px;
+      background: var(--miyu-violet-soft);
+      transition: all 0.4s ease;
+      box-shadow: 0 0 8px var(--miyu-violet-glow), 0 0 24px rgba(120, 60, 200, 0.2), inset 0 0 8px rgba(120, 60, 200, 0.08);
+    }
+
+    .faq-item.hidden {
+      display: none;
+    }
+
+    .faq-question {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 18px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      color: #ddd0f0;
+      user-select: none;
+      transition: color 0.25s ease;
+    }
+
+    .faq-item:not(.open):hover {
+      background: var(--miyu-green-soft);
+      border-color: var(--miyu-green-border);
+      box-shadow: 0 0 14px var(--miyu-green-glow), 0 0 32px rgba(160, 200, 30, 0.2), inset 0 0 10px rgba(160, 200, 30, 0.06);
+    }
+
+    .faq-item:not(.open):hover .faq-question {
+      color: var(--miyu-text);
+    }
+
+    .faq-item:not(.open):hover .faq-icon {
+      color: rgba(160, 200, 30, 0.9);
+    }
+
+    .faq-icon {
+      font-size: 16px;
+      color: rgba(140, 80, 220, 0.8);
+      font-weight: 700;
+      min-width: 14px;
+      transition: color 0.25s ease;
+    }
+
+    .faq-item.open .faq-icon {
+      color: rgba(160, 200, 30, 0.9);
+    }
+
+    .faq-item.open {
+      border-color: var(--miyu-green-border);
+      background: var(--miyu-green-soft);
+      box-shadow: 0 0 14px var(--miyu-green-glow), 0 0 32px rgba(160, 200, 30, 0.2), inset 0 0 10px rgba(160, 200, 30, 0.06);
+    }
+
+    .faq-item.open .faq-question {
+      color: var(--miyu-text);
+    }
+
+    .faq-answer {
+      display: none;
+      padding: 0 18px 16px 46px;
+      font-size: 13px;
+      color: var(--miyu-text-muted);
+      line-height: 1.7;
+      border-top: 1px solid rgba(160, 200, 30, 0.15);
+      white-space: pre-line;
+    }
+
+    .faq-item.open .faq-answer {
+      display: block;
+    }
+
+    .faq-no-results {
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+      padding: 20px 0;
+      display: none;
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      border-top: 1px solid var(--line);
+      text-align: center;
+      padding: 18px 20px;
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: 1px;
+      margin-top: auto;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 900px) {
+      .container {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        border-left: none;
+        border-top: 1px solid var(--line);
+        padding-top: 20px;
+      }
+
+      .miyu-wrapper {
+        width: 80px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="header-inner">
+      <div class="logo">KohakuRei Studio</div>
+      <div class="lang-switch">
+        <button onclick="toggleLang()">ES / EN</button>
+      </div>
+    </div>
+
+    <video class="banner" autoplay loop muted playsinline>
+        <source src="AnimBanner/BannerMiyu.webm" type="video/webm">
+    </video>
+
+    <div class="header-inner">
+      <div></div>
+      <nav>
+        <button id="btn-home" onclick="showPage('home')" data-es="Inicio" data-en="Home">Inicio</button>
+        <button id="btn-about" onclick="showPage('about')" data-es="Acerca de" data-en="About">Acerca de</button>
+        <button id="btn-game" onclick="showPage('game')" data-es="Juego" data-en="Game">Juego</button>
+        <button id="btn-gallery" onclick="showPage('gallery')" data-es="Galería" data-en="Gallery">Galería</button>
+      </nav>
+      <div></div>
+    </div>
+  </header>
+
+  <!-- ===== HOME ===== -->
+  <div id="home" class="container">
+    <div class="main">
+      <h1 data-es="🦊 KohakuRei Studio 🌸" data-en="🦊 KohakuRei Studio 🌸">KohakuRei Studio</h1>
+      <p data-es="KohakuRei Studio es un proyecto independiente llevado por una sola persona, encargada de todas las áreas del desarrollo: desde el arte, la programación y el diseño, hasta la gestión de redes, marketing y comunicación. Todo el proceso creativo se desarrolla de forma individual, con un enfoque centrado en la creación de experiencias narrativas con identidad propia.
+
+      Actualmente se está desarrollando 'Miyu: Ecos de una Sombra', un videojuego donde cada elemento ha sido creado de forma artesanal, cuidando cada detalle para transmitir emociones y construir un mundo que conecte con quien lo juegue.
+
+      Este proyecto representa no solo un juego, sino también una forma de expresión, donde cada decisión, cada diseño y cada parte del proceso refleja una visión personal y una pasión por contar historias a través de los videojuegos."
+        data-en="KohakuRei Studio is an independent project run by a single person, responsible for every aspect of development: from art, programming and design to social media management, marketing and communication. The entire creative process is handled individually, with a strong focus on creating narrative experiences with a unique identity.
+
+      'Miyu: Echoes of a Shadow' is currently in development, a video game where every element is crafted with care, paying attention to detail in order to convey emotions and build a world that connects with those who experience it.
+
+      This project is not just a game, but also a form of expression, where every decision, every design and every part of the process reflects a personal vision and a passion for storytelling through video games.">
+      </p>
+      <img src="ico\IconoKohakuReiStudio.png" alt="Logo Kohaku Rei Studio"
+        style="width: 250px; height: 250px; object-fit: cover; margin-top: 12px;">
+    </div>
+
+    <div class="sidebar">
+      <div class="social-list">
+        <a class="social" href="https://www.youtube.com/@KohakuReiStudio" target="_blank"><i class="fab fa-youtube"></i>
+          YouTube</a>
+        <a class="social" href="https://www.instagram.com/kohakureistudio/" target="_blank"><i
+            class="fab fa-instagram"></i> Instagram</a>
+        <a class="social" href="https://www.tiktok.com/@kohakurei.studio" target="_blank"><i class="fab fa-tiktok"></i>
+          TikTok</a>
+        <a class="social" href="https://discord.gg/AHdjzr3sde" target="_blank"><i class="fab fa-discord"></i>
+          Discord</a>
+        <a class="social"
+          href="https://patreon.com/KhohakuReiStudio?utm_medium=unknown&utm_source=join_link&utm_campaign=creatorshare_creator&utm_content=copyLink"><i
+            class="fab fa-patreon"></i> Patreon</a>
+      </div>
+      <div class="social"></div>
+    </div>
+  </div>
+
+  <!-- ===== ABOUT ===== -->
+  <div id="about" class="container-full" style="display:none;">
+    <div class="main">
+      <h1 data-es="Acerca de" data-en="About">Acerca de</h1>
+
+      <div class="faq-wrapper">
+        <input
+          class="faq-search"
+          type="text"
+          id="faq-search-input"
+          data-placeholder-es="Buscar..."
+          data-placeholder-en="Search..."
+          placeholder="Buscar..."
+          oninput="filterFaq()"
+        />
+
+        <!-- P2 -->
+        <div class="faq-item"
+          data-es="¿Qué es Miyu: Ecos de una Sombra?"
+          data-en="What is Miyu: Echoes of a Shadow?">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            <span class="faq-icon">+</span>
+            <span class="faq-label"
+              data-es="¿Qué es Miyu: Ecos de una Sombra?"
+              data-en="What is Miyu: Echoes of a Shadow?">¿Qué es Miyu: Ecos de una Sombra?</span>
+          </div>
+          <div class="faq-answer"
+            data-es="Un RPG pixel art de exploración en cuatro direcciones con un sistema de elecciones y múltiples finales, desarrollado en Godot 4. Una historia sobre identidad, memoria y un mundo que considera las emociones humanas una forma de debilidad.
+
+Miyu despierta en un lugar que no reconoce, sin saber cómo ha llegado hasta allí. Desde el primer instante está en peligro. Para sobrevivir, deberá navegar por un mundo que la rechaza y recuperar fragmentos de un pasado que creía olvidado, descubriendo poco a poco qué vínculo la une a ese lugar y por qué su llegada no es una coincidencia."
+            data-en="A four-directional exploration pixel art RPG with a choices system and multiple endings, developed in Godot 4. A story about identity, memory and a world that sees human emotions as a form of weakness.
+
+Miyu wakes up in a place she does not recognize, with no idea how she got there. From the very first moment she is in danger. To survive, she must navigate a world that rejects her and recover fragments of a past she thought forgotten, slowly uncovering what binds her to that place and why her arrival is no coincidence.">
+            Un RPG pixel art de exploración en cuatro direcciones con un sistema de elecciones y múltiples finales, desarrollado en Godot 4. Una historia sobre identidad, memoria y un mundo que considera las emociones humanas una forma de debilidad.
+
+Miyu despierta en un lugar que no reconoce, sin saber cómo ha llegado hasta allí. Desde el primer instante está en peligro. Para sobrevivir, deberá navegar por un mundo que la rechaza y recuperar fragmentos de un pasado que creía olvidado, descubriendo poco a poco qué vínculo la une a ese lugar y por qué su llegada no es una coincidencia.
+          </div>
+        </div>
+
+        <!-- P3 -->
+        <div class="faq-item"
+          data-es="¿En qué motor está desarrollado?"
+          data-en="What engine is the game built on?">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            <span class="faq-icon">+</span>
+            <span class="faq-label"
+              data-es="¿En qué motor está desarrollado?"
+              data-en="What engine is the game built on?">¿En qué motor está desarrollado?</span>
+          </div>
+          <div class="faq-answer"
+            data-es="El juego está siendo desarrollado en Godot 4, un motor de código abierto que ofrece flexibilidad y control total sobre el desarrollo, especialmente adecuado para proyectos independientes de esta escala."
+            data-en="The game is being developed in Godot 4, an open source engine that offers flexibility and full control over development, particularly well suited for independent projects of this scale.">
+            El juego está siendo desarrollado en Godot 4, un motor de código abierto que ofrece flexibilidad y control total sobre el desarrollo, especialmente adecuado para proyectos independientes de esta escala.
+          </div>
+        </div>
+
+        <!-- P4 -->
+        <div class="faq-item"
+          data-es="¿Cuándo saldrá el juego?"
+          data-en="When will the game be released?">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            <span class="faq-icon">+</span>
+            <span class="faq-label"
+              data-es="¿Cuándo saldrá el juego?"
+              data-en="When will the game be released?">¿Cuándo saldrá el juego?</span>
+          </div>
+          <div class="faq-answer"
+            data-es="Actualmente el juego se encuentra en fase de desarrollo temprano. Por el momento no hay una fecha de lanzamiento confirmada. Seguimos trabajando en él con dedicación. La mejor forma de no perderte ninguna novedad es unirte a nuestra comunidad en Discord o seguirnos en redes sociales."
+            data-en="The game is currently in early development. There is no confirmed release date at this time. We continue working on it with dedication. The best way to stay up to date is to join our Discord community or follow us on social media.">
+            Actualmente el juego se encuentra en fase de desarrollo temprano. Por el momento no hay una fecha de lanzamiento confirmada. Seguimos trabajando en él con dedicación. La mejor forma de no perderte ninguna novedad es unirte a nuestra comunidad en Discord o seguirnos en redes sociales.
+          </div>
+        </div>
+
+        <!-- P5 -->
+        <div class="faq-item"
+          data-es="¿En qué plataformas estará disponible?"
+          data-en="What platforms will it be available on?">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            <span class="faq-icon">+</span>
+            <span class="faq-label"
+              data-es="¿En qué plataformas estará disponible?"
+              data-en="What platforms will it be available on?">¿En qué plataformas estará disponible?</span>
+          </div>
+          <div class="faq-answer"
+            data-es="El lanzamiento está previsto en PC a través de Steam e itch.io. No se descarta ampliar a otras plataformas en el futuro según evolucione el proyecto."
+            data-en="The game is planned to launch on PC via Steam and itch.io. Expanding to other platforms in the future is not ruled out as the project evolves.">
+            El lanzamiento está previsto en PC a través de Steam e itch.io. No se descarta ampliar a otras plataformas en el futuro según evolucione el proyecto.
+          </div>
+        </div>
+
+        <!-- P7 -->
+        <div class="faq-item"
+          data-es="¿Dónde puedo seguir el desarrollo?"
+          data-en="Where can I follow the development?">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            <span class="faq-icon">+</span>
+            <span class="faq-label"
+              data-es="¿Dónde puedo seguir el desarrollo?"
+              data-en="Where can I follow the development?">¿Dónde puedo seguir el desarrollo?</span>
+          </div>
+          <div class="faq-answer"
+            data-es="El lugar más activo es nuestro servidor de Discord, donde se publican las actualizaciones más detalladas. También compartimos contenido en Instagram, y vídeos del proceso en YouTube y TikTok. Todos los enlaces están disponibles en esta misma página."
+            data-en="The most active place is our Discord server, where the most detailed updates are posted. We also share content on Instagram and development videos on YouTube and TikTok. All links are available on this page.">
+            El lugar más activo es nuestro servidor de Discord, donde se publican las actualizaciones más detalladas. También compartimos contenido en Instagram, y vídeos del proceso en YouTube y TikTok. Todos los enlaces están disponibles en esta misma página.
+          </div>
+        </div>
+
+        <!-- P8 -->
+        <div class="faq-item"
+          data-es="¿Cómo puedo apoyar el proyecto?"
+          data-en="How can I support the project?">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            <span class="faq-icon">+</span>
+            <span class="faq-label"
+              data-es="¿Cómo puedo apoyar el proyecto?"
+              data-en="How can I support the project?">¿Cómo puedo apoyar el proyecto?</span>
+          </div>
+          <div class="faq-answer"
+            data-es="La forma más directa es a través de Patreon, donde cualquier aportación ayuda a sostener el desarrollo. Si prefieres apoyar de forma gratuita, seguirnos en redes sociales, compartir el contenido y dar visibilidad al proyecto tiene un impacto real. Un proyecto indie vive de su comunidad, y cada persona que lo comparte marca la diferencia."
+            data-en="The most direct way is through Patreon, where any contribution helps sustain development. If you prefer to support for free, following us on social media, sharing our content and giving visibility to the project has a real impact. An indie project lives through its community, and every person who shares it makes a difference.">
+            La forma más directa es a través de Patreon, donde cualquier aportación ayuda a sostener el desarrollo. Si prefieres apoyar de forma gratuita, seguirnos en redes sociales, compartir el contenido y dar visibilidad al proyecto tiene un impacto real. Un proyecto indie vive de su comunidad, y cada persona que lo comparte marca la diferencia.
+          </div>
+        </div>
+
+        <!-- P9 -->
+        <div class="faq-item"
+          data-es="¿Hay una sola persona detrás de KohakuRei Studio?"
+          data-en="Is there only one person behind KohakuRei Studio?">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            <span class="faq-icon">+</span>
+            <span class="faq-label"
+              data-es="¿Hay una sola persona detrás de KohakuRei Studio?"
+              data-en="Is there only one person behind KohakuRei Studio?">¿Hay una sola persona detrás de KohakuRei Studio?</span>
+          </div>
+          <div class="faq-answer"
+            data-es="Sí. KohakuRei Studio es un proyecto completamente unipersonal. Arte, programación, diseño, narrativa, redes sociales y comunicación, todo corre a cargo de una sola persona. No hay equipo detrás, solo una visión clara y el trabajo constante de llevarla adelante."
+            data-en="Yes. KohakuRei Studio is a completely solo project. Art, programming, design, narrative, social media and communication, everything is handled by a single person. There is no team behind it, only a clear vision and the constant work of bringing it to life.">
+            Sí. KohakuRei Studio es un proyecto completamente unipersonal. Arte, programación, diseño, narrativa, redes sociales y comunicación, todo corre a cargo de una sola persona. No hay equipo detrás, solo una visión clara y el trabajo constante de llevarla adelante.
+          </div>
+        </div>
+
+        <div class="faq-no-results" id="faq-no-results"
+          data-es="No se encontraron resultados."
+          data-en="No results found.">No se encontraron resultados.</div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== GAME ===== -->
+  <div id="game" class="container" style="display:none;">
+    <div class="main">
+
+      <div id="menu-card" class="menu-card" onclick="openCard()">
+        <div class="menu-card-text">
+          <h1 data-es="Miyu: Ecos de una Sombra" data-en="Miyu: Echoes of a Shadow">Miyu: Ecos de una Sombra</h1>
+          <p data-es="Haz clic para saber más." data-en="Click to learn more.">Haz clic para saber más.</p>
+        </div>
+        <div class="miyu-wrapper">
+          <img src="img/Miyu.png" class="miyu-normal">
+          <img src="img/MiyuPoss.png" class="miyu-poseida">
+        </div>
+      </div>
+
+      <div id="game-info">
+        <button class="btn-back" onclick="closeCard()" data-es="Volver" data-en="Back">Volver</button>
+
+        <h1 data-es="Miyu: Ecos de una Sombra" data-en="Miyu: Echoes of a Shadow">Miyu: Ecos de una Sombra</h1>
+
+        <p data-es="Acompaña a Miyu en una historia oscura, íntima y emocional donde la realidad comienza a distorsionarse y las sombras parecen cobrar vida propia. Lo que empieza como una existencia aparentemente normal se transforma poco a poco en un viaje inquietante, donde cada paso revela fragmentos de un pasado olvidado y una verdad que se resiste a salir a la luz.
+
+        Explora entornos cargados de atmósfera, resuelve pequeños misterios y sumérgete en una narrativa que juega con la percepción, el miedo y la identidad. A medida que avances, la línea entre lo real y lo imposible se volverá cada vez más difusa, obligándote a cuestionar qué está ocurriendo realmente… y por qué.
+
+        'Miyu: Ecos de una Sombra' es una experiencia centrada en la exploración, la ambientación y el desarrollo emocional de su protagonista, donde cada detalle, cada silencio y cada sombra tienen algo que contar."
+          data-en="Follow Miyu in a dark, intimate and emotional story where reality begins to distort and shadows seem to take on a life of their own. What starts as a seemingly normal existence slowly turns into an unsettling journey, where each step reveals fragments of a forgotten past and a truth that refuses to come to light.
+
+        Explore atmospheric environments, solve subtle mysteries and immerse yourself in a narrative that plays with perception, fear and identity. As you progress, the line between reality and the impossible becomes increasingly blurred, forcing you to question what is truly happening… and why.
+
+        'Miyu: Echoes of a Shadow' is a narrative experience focused on exploration, atmosphere and the emotional journey of its protagonist, where every detail, every silence and every shadow has something to say.">
+        </p>
+
+      </div>
+
+    </div>
+    <!-- Sidebar tiendas — siempre visible -->
+    <div class="sidebar">
+      <div class="social-list">
+        <a class="social">
+          <i class="fab fa-steam"></i> Steam
+          <span data-es="(Próximamente)" data-en="(Soon)">(Próximamente)</span>
+        </a>
+        <a class="social">
+          <i class="fab fa-itch-io"></i> Itch.io
+          <span data-es="(Próximamente)" data-en="(Soon)">(Próximamente)</span>
+        </a>
+        <div class="social">
+          <a class="social"
+            href="https://patreon.com/KhohakuReiStudio?utm_medium=unknown&utm_source=join_link&utm_campaign=creatorshare_creator&utm_content=copyLink"><i
+              class="fab fa-patreon"></i> Patreon</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== GALLERY ===== -->
+  <div id="gallery" class="container-full" style="display:none;">
+    <div class="main">
+
+      <!-- Card Fanarts -->
+      <div id="gallery-card-fanarts" class="menu-card" onclick="openGalleryCard('fanarts')">
+        <div class="menu-card-text-gallery">
+          <h1 data-es="🎨Fanarts🎨" data-en="🎨Fanarts🎨">🎨Fanarts🎨</h1>
+          <p data-es="Haz clic para visualizar." data-en="Click to view.">Haz clic para visualizar.</p>
+        </div>
+      </div>
+
+      <div id="gallery-info-fanarts" class="gallery-section" style="display:none; opacity:0; transition: opacity 0.3s ease;">
+        <button class="btn-back" onclick="closeGalleryCard('fanarts')" data-es="Volver" data-en="Back">Volver</button>
+        <h1 data-es="🎨 Fanarts 🎨" data-en="🎨 Fanarts 🎨">🎨 Fanarts 🎨</h1>
+        <p data-es="La galería estará disponible próximamente." data-en="The gallery will be available soon.">La galería estará disponible próximamente.</p>
+      </div>
+
+      <!-- Card Capturas -->
+      <div id="gallery-card-screenshots" class="menu-card" onclick="openGalleryCard('screenshots')">
+        <div class="menu-card-text-gallery">
+          <h1 data-es="📸Capturas📸" data-en="📸Screenshots📸">📸Capturas📸</h1>
+          <p data-es="Haz clic para visualizar." data-en="Click to view.">Haz clic para visualizar.</p>
+        </div>
+      </div>
+
+      <div id="gallery-info-screenshots" class="gallery-section" style="display:none; opacity:0; transition: opacity 0.3s ease;">
+        <button class="btn-back" onclick="closeGalleryCard('screenshots')" data-es="Volver" data-en="Back">Volver</button>
+        <h1 data-es="📸 Capturas 📸" data-en="📸 Screenshots 📸">📸 Capturas 📸</h1>
+        <p data-es="La galería estará disponible próximamente." data-en="The gallery will be available soon.">La galería estará disponible próximamente.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <span>© <span id="footer-year"></span> KohakuRei Studio</span>
+  </footer>
+
+  <script>
+    document.getElementById('footer-year').textContent = new Date().getFullYear();
+
+    const pages = ['home', 'about', 'game', 'gallery'];
+
+    function showPage(page) {
+      pages.forEach(p => {
+        document.getElementById(p).style.display = 'none';
+        document.getElementById('btn-' + p).classList.remove('active');
+      });
+      document.getElementById(page).style.display = 'grid';
+      document.getElementById('btn-' + page).classList.add('active');
+
+      if (page === 'game') closeCard();
+    }
+
+    function openCard() {
+      const card = document.getElementById('menu-card');
+      const info = document.getElementById('game-info');
+
+      card.style.display = 'none';
+      info.style.display = 'block';
+
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          info.classList.add('fade-in');
+        });
+      });
+    }
+
+    function closeCard() {
+      const card = document.getElementById('menu-card');
+      const info = document.getElementById('game-info');
+
+      info.classList.remove('fade-in');
+      info.style.display = 'none';
+      card.style.display = 'flex';
+    }
+
+    const gallerySections = ['fanarts', 'screenshots'];
+
+    function openGalleryCard(section) {
+      gallerySections.forEach(s => {
+        document.getElementById('gallery-card-' + s).style.display = 'none';
+      });
+      const info = document.getElementById('gallery-info-' + section);
+      info.style.display = 'block';
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          info.style.opacity = '1';
+        });
+      });
+    }
+
+    function closeGalleryCard(section) {
+      const info = document.getElementById('gallery-info-' + section);
+      info.style.opacity = '0';
+      info.style.display = 'none';
+      
+      gallerySections.forEach(s => {
+        document.getElementById('gallery-card-' + s).style.display = 'flex';
+      });
+    }
+
+    // ===== FAQ =====
+    function toggleFaq(questionEl) {
+      const item = questionEl.parentElement;
+      const icon = questionEl.querySelector('.faq-icon');
+      const isOpen = item.classList.contains('open');
+
+      // Cierra todos
+      document.querySelectorAll('.faq-item').forEach(i => {
+        i.classList.remove('open');
+        i.querySelector('.faq-icon').textContent = '+';
+      });
+
+      // Si estaba cerrado, abre este
+      if (!isOpen) {
+        item.classList.add('open');
+        icon.textContent = '−';
+      }
+    }
+
+    function filterFaq() {
+      const lang = localStorage.getItem('lang') || 'es';
+      const query = document.getElementById('faq-search-input').value.toLowerCase().trim();
+      const items = document.querySelectorAll('.faq-item');
+      let visible = 0;
+
+      items.forEach(item => {
+        const question = (item.getAttribute('data-' + lang) || '').toLowerCase();
+        const answer = (item.querySelector('.faq-answer').getAttribute('data-' + lang) || '').toLowerCase();
+        if (question.includes(query) || answer.includes(query)) {
+          item.classList.remove('hidden');
+          visible++;
+        } else {
+          item.classList.add('hidden');
+        }
+      });
+
+      document.getElementById('faq-no-results').style.display = visible === 0 ? 'block' : 'none';
+    }
+
+    // ===== LANG =====
+    function toggleLang() {
+      let lang = localStorage.getItem('lang') || 'es';
+      lang = lang === 'es' ? 'en' : 'es';
+      localStorage.setItem('lang', lang);
+      applyLang();
+    }
+
+    function applyLang() {
+      const lang = localStorage.getItem('lang') || 'es';
+
+      document.querySelectorAll('[data-es]').forEach(el => {
+        // Los faq-item usan data-es para búsqueda, no para textContent
+        if (el.classList.contains('faq-item')) return;
+        // faq-label y faq-answer se gestionan por separado
+        if (el.classList.contains('faq-label')) return;
+        if (el.classList.contains('faq-answer')) return;
+        el.textContent = el.getAttribute('data-' + lang);
+      });
+
+      // FAQ: actualizar labels y respuestas
+      document.querySelectorAll('.faq-label').forEach(el => {
+        el.textContent = el.getAttribute('data-' + lang);
+      });
+      document.querySelectorAll('.faq-answer').forEach(el => {
+        el.textContent = el.getAttribute('data-' + lang);
+      });
+
+      // Placeholder del buscador
+      const searchInput = document.getElementById('faq-search-input');
+      if (searchInput) {
+        searchInput.placeholder = searchInput.getAttribute('data-placeholder-' + lang);
+      }
+
+      // Mensaje sin resultados
+      const noResults = document.getElementById('faq-no-results');
+      if (noResults) {
+        noResults.textContent = noResults.getAttribute('data-' + lang);
+      }
+    }
+
+    document.getElementById('btn-home').classList.add('active');
+    applyLang();
+  </script>
+
+</body>
+
+</html>
