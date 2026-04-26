@@ -525,6 +525,14 @@
       box-shadow: 0 0 14px var(--miyu-green-glow), 0 0 32px rgba(160, 200, 30, 0.2);
     }
 
+    img.img-screenshot {
+      width: 500px;   /* ajusta aquí el tamaño */
+      max-width: 90vw;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+    }
+    
     #lightbox-overlay {
       display: none;
       position: fixed;
@@ -954,11 +962,11 @@ Miyu despierta en un lugar que no reconoce, sin saber cómo ha llegado hasta all
       <div id="gallery-info-fanarts" class="gallery-section" style="display:none; opacity:0; transition: opacity 0.3s ease;">
         <button class="btn-back" onclick="closeGalleryCard('fanarts')" data-es="Volver" data-en="Back">Volver</button>
         <h1 data-es="🎨 Fanarts 🎨" data-en="🎨 Fanarts 🎨">🎨 Fanarts 🎨</h1>
-        <figure>
-          <div class="gallery-img-wrapper" onclick="openLightbox('img/gallery/fanarts/FroggoMiyu_PalePrince.png', 'Artwork by PalePrince')">
+        <figure style="margin-top: 50px;">
+          <div class="gallery-img-wrapper" onclick="openLightbox('img/gallery/fanarts/FroggoMiyu_PalePrince.png', 'Fanart de PalePrince', 'Fanart by PalePrince')">
             <img src="img/gallery/fanarts/FroggoMiyu_PalePrince.png" alt="By PalePrince">
           </div>
-          <figcaption><p data-es="Arte de PalePrince" data-en="Artwork by PalePrince">Artwork by PalePrince</p></figcaption>
+          <figcaption><p data-es="Fanart de PalePrince" data-en="Fanart by PalePrince">Fanart by PalePrince</p></figcaption>
         </figure>
       </div>
 
@@ -973,7 +981,12 @@ Miyu despierta en un lugar que no reconoce, sin saber cómo ha llegado hasta all
       <div id="gallery-info-screenshots" class="gallery-section" style="display:none; opacity:0; transition: opacity 0.3s ease;">
         <button class="btn-back" onclick="closeGalleryCard('screenshots')" data-es="Volver" data-en="Back">Volver</button>
         <h1 data-es="📸 Capturas 📸" data-en="📸 Screenshots 📸">📸 Capturas 📸</h1>
-        <p data-es="Disponible próximamente." data-en="Available soon.">Disponible próximamente.</p>
+        <figure style="margin-top: 50px;">
+          <div class="gallery-img-wrapper" onclick="openLightbox('img/gallery/screenshots/MainMenuMiyuScreenshot.png', 'Pantalla de inicio', 'Main Menu')">
+            <img class="img-screenshot" src="img/gallery/screenshots/MainMenuMiyuScreenshot.png" alt="MainMenu">
+          </div>
+          <figcaption><p data-es="Pantalla de inicio" data-en="Main Menu">Miyu's main menu</p></figcaption>
+        </figure>
       </div>
 
     </div>
@@ -1129,9 +1142,14 @@ Miyu despierta en un lugar que no reconoce, sin saber cómo ha llegado hasta all
     }
 
     // ===== LIGHTBOX =====
-    function openLightbox(src, caption) {
+    function openLightbox(src, captionEs, captionEn) {
+      const lang = localStorage.getItem('lang') || 'es';
+
       document.getElementById('lightbox-img').src = src;
-      document.getElementById('lightbox-caption').textContent = caption;
+
+      document.getElementById('lightbox-caption').textContent =
+        lang === 'es' ? captionEs : captionEn;
+
       document.getElementById('lightbox-overlay').classList.add('active');
       document.body.style.overflow = 'hidden';
     }
