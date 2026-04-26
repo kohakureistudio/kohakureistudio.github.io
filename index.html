@@ -525,9 +525,10 @@
       box-shadow: 0 0 14px var(--miyu-green-glow), 0 0 32px rgba(160, 200, 30, 0.2);
     }
 
+    /* ===== FIX: imagen screenshots adaptada a móvil ===== */
     img.img-screenshot {
-      width: 500px;   /* ajusta aquí el tamaño */
-      max-width: 90vw;
+      width: 500px;
+      max-width: 100%;
       height: auto;
       display: block;
       margin: 0 auto;
@@ -598,6 +599,12 @@
 
       .container-full {
         padding: 20px;
+      }
+
+      /* ===== FIX: evitar desbordamiento en secciones de galería ===== */
+      .gallery-section {
+        width: 100%;
+        overflow: hidden;
       }
 
       .sidebar {
@@ -678,8 +685,11 @@
         padding: 0 4px;
       }
 
+      /* ===== FIX: botón volver ocupa ancho del contenedor sin desbordarlo ===== */
       .btn-back {
+        display: block;
         width: 100%;
+        box-sizing: border-box;
       }
 
       .header-inner {
